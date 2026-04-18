@@ -3,17 +3,31 @@ import pickle
 import pandas as pd
 import requests
 import os
-def download_file(url, filename):
-    if not os.path.exists(filename):
-        st.write(f"Downloading {filename}...")
-        r = requests.get(url)
-        with open(filename, 'wb') as f:
-            f.write(r.content)
+
 movie_dict_url = "https://drive.google.com/uc?id=1gz5rAK-9nHEbPasjGGNWx0mG-jWBrEMZ"
 similarity_url = "https://drive.google.com/uc?id=1MFFstzS1POeAnyz6tnfSJV23YeFsJn7H"
 
-download_file(movie_dict_url, "movie_dict.pkl")
-download_file(similarity_url, "similarity.pkl")
+def download_file_from_drive(url, filename):
+    if not os.path.exists(filename):
+        st.write(f"Downloading {filename}...")
+
+        session = requests.Session()
+        response = session.get(url, stream=True)
+
+        # handle large file confirmation
+        for key, value in response.cookies.items():
+            if key.startswith('download_warning'):
+                url = url + "&confirm=" + value
+                response = session.get(url, stream=True)
+                break
+
+        with open(filename, "wb") as f:
+            for chunk in response.iter_content(1024):
+                if chunk:
+                    f.write(chunk)
+download_file_from_drive(movie_dict_url, "movie_dict.pkl")
+download_file_from_drive(similarity_url, "similarity.pkl")
+
 
 movie_dict=pickle.load(open('movie_dict.pkl', 'rb'))
 movie=pd.DataFrame(movie_dict)
