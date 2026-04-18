@@ -6,8 +6,8 @@ import os
 import gdown
 
 
-movie_dict_url = "https://drive.google.com/uc?id=1gz5rAK-9nHEbPasjGGNWx0mG-jWBrEMZ"
-similarity_url = "https://drive.google.com/uc?id=1MFFstzS1POeAnyz6tnfSJV23YeFsJn7H"
+movie_dict_url = "https://drive.google.com/uc?export=download&id=1gz5rAK-9nHEbPasjGGNWx0mG-jWBrEMZ"
+similarity_url = "https://drive.google.com/uc?export=download&id=1MFFstzS1POeAnyz6tnfSJV23YeFsJn7H"
 
 
 
