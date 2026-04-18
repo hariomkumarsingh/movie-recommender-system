@@ -15,8 +15,8 @@ similarity_url = "https://drive.google.com/uc?id=1MFFstzS1POeAnyz6tnfSJV23YeFsJn
 download_file(movie_dict_url, "movie_dict.pkl")
 download_file(similarity_url, "similarity.pkl")
 
-movie_dict = pickle.load(open('movie_dict.pkl', 'rb'))
-movie = pd.DataFrame(movie_dict)
+movie_dict=pickle.load(open('movie_dict.pkl', 'rb'))
+movie=pd.DataFrame(movie_dict)
 
 similarity = pickle.load(open('similarity.pkl', 'rb'))
 def fetch(movie_id):
@@ -42,13 +42,9 @@ def recommend(movie_name):
 
     return recommended_movies, recommended_movies_poster
 
-movie_dict=pickle.load(open('movie_dict.pkl', 'rb'))
-movie=pd.DataFrame(movie_dict)
-
-similarity=pickle.load(open('similarity.pkl', 'rb'))
 
 st.title('movie recommender system')
-selected_movie_name = st.selectbox('How would you like to contacted?', movie['title'].values)
+selected_movie_name = st.selectbox('Select a movie:', movie['title'].values)
 if st.button('Recommend'):
     name, posters = recommend(selected_movie_name)
 
