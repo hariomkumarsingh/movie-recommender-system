@@ -3,30 +3,21 @@ import pickle
 import pandas as pd
 import requests
 import os
+import gdown
+
 
 movie_dict_url = "https://drive.google.com/uc?id=1gz5rAK-9nHEbPasjGGNWx0mG-jWBrEMZ"
 similarity_url = "https://drive.google.com/uc?id=1MFFstzS1POeAnyz6tnfSJV23YeFsJn7H"
 
-def download_file_from_drive(url, filename):
-    if not os.path.exists(filename):
-        st.write(f"Downloading {filename}...")
 
-        session = requests.Session()
-        response = session.get(url, stream=True)
 
-        # handle large file confirmation
-        for key, value in response.cookies.items():
-            if key.startswith('download_warning'):
-                url = url + "&confirm=" + value
-                response = session.get(url, stream=True)
-                break
+if not os.path.exists("movie_dict.pkl"):
+    st.write("Downloading movie_dict.pkl...")
+    gdown.download(movie_dict_url, "movie_dict.pkl", quiet=False)
 
-        with open(filename, "wb") as f:
-            for chunk in response.iter_content(1024):
-                if chunk:
-                    f.write(chunk)
-download_file_from_drive(movie_dict_url, "movie_dict.pkl")
-download_file_from_drive(similarity_url, "similarity.pkl")
+if not os.path.exists("similarity.pkl"):
+    st.write("Downloading similarity.pkl...")
+    gdown.download(similarity_url, "similarity.pkl", quiet=False)
 
 
 movie_dict=pickle.load(open('movie_dict.pkl', 'rb'))
